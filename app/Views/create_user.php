@@ -89,11 +89,21 @@
       <form action="<?=base_url('/user/store')?>" method="POST">
         <div class="form-group">
           <label for="nama">Nama :</label>
-          <input type="text" class="form-control" name="nama" placeholder="Masukkan Nama">
+          <input type="text" class="form-control mt-2 <?= session('validation') && session('validation')->hasError('nama') ? 'is-invalid' : '' ?>" id="floatingName" placeholder="Nama" name="nama" value="<?= old('nama') ?>">
+          <?php if (session('validation') && session('validation')->hasError('nama')) : ?>
+          <div class="invalid-feedback">
+            <?= session('validation')->getError('nama'); ?>
+          </div>
+        <?php endif; ?>
         </div>
         <div class="form-group">
           <label for="npm">NPM :</label>
-          <input type="text" class="form-control" name="npm" placeholder="Masukkan NPM">
+          <input type="number" class="form-control mt-2 <?= session('validation') ? 'is-invalid' : '' ?>" id="floatingNpm" placeholder="NPM" name="npm" value="<?= old('npm') ?>">
+          <?php if (session('validation') && session('validation')->hasError('npm')) : ?>
+          <div class="invalid-feedback">
+            <?= session('validation')->getError('npm'); ?>
+          </div>
+        <?php endif; ?>
         </div>
         <div class="form-group">
           <label for="kelas">Kelas :</label>
