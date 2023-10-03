@@ -1,3 +1,21 @@
+<?php
+// Definisikan array kelas dengan nama kelas sesuai nomor kelas
+$kelasArray = [
+    1 => 'AB',
+    2 => 'BC',
+    3 => 'CD',
+    4 => 'DA'
+    // Tambahkan kelas lainnya sesuai kebutuhan
+];
+$kelas_id =$kelas;
+// Periksa apakah nomor kelas ada dalam array
+if (isset($kelasArray[$kelas_id])) {
+    $namaKelas = $kelasArray[$kelas_id];
+} else {
+    $namaKelas = 'Kelas tidak diketahui';
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

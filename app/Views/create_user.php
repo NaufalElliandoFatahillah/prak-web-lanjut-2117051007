@@ -1,12 +1,7 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="<?=base_url("assets/css/bootstrap.min.css")?>" rel="stylesheet">
-    
-    <style>
+    <?= $this->extend('layouts/app') ?>
+    <?= $this->section('content') ?>
+      <div>
+      <style>
       body {
         background-color: #f8f9fa;
         font-family: Arial, sans-serif;
@@ -82,8 +77,6 @@
         background-color: #778899;
       }
     </style>
-  </head>
-  <body>
     <div class="container">
       <h1>Form Absen</h1>
       <form action="<?=base_url('/user/store')?>" method="POST">
@@ -123,6 +116,5 @@
       </form>
       <p>Silakan isi formulir absen di atas</p>
     </div>
-    <script src="<?=base_url("assets/js/bootstrap.bundle.min.js")?>"></script>
-  </body>
-</html>
+      </div>
+    <?= $this->endsection() ?>

@@ -4,12 +4,25 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\UserModel;
+use App\Models\KelasModel;
 
 class UserController extends BaseController
 {
+    public $userModel;
+    public $kelasModel;
+    public function __construct() 
+    {
+        $this->userModel = new UserModel ();
+        $this->kelasModel = new KelasModel ();
+    }
+
     public function index()
     {
-        //
+        $data = [
+            'title' => 'List User',
+            'user' => $this->userModel->getUser(),
+        ];
+        return view ('list_user', $data);
     }
     public function profile($nama = "",$kelas = "",$npm ="")
     {
@@ -20,32 +33,15 @@ class UserController extends BaseController
         ];
         return view('profile', $data);
     }
+    
     public function create()
     {
-        $kelas = [
-        [
-            'id'=> 1,
-            'nama_kelas'=> 'A',
-        ],
-        [
-            'id'=> 2,
-            'nama_kelas'=> 'B',
-        ],
-        [
-            'id'=> 3,
-            'nama_kelas'=> 'C',
-        ],
-        [
-            'id'=> 4,
-            'nama_kelas'=> 'D',
-        ],
-    ];
-
-    $data = [
-        'kelas'=> $kelas,
-        'validation' => \Config\Services::validation()
-
-    ];
+        // $kelasModel = new KelasModel();
+        $kelas = $this->kelasModel->getKelas();
+        $data = [
+            'title'=> "Tambah User",
+            'kelas' => $kelas,
+        ];
 
         return view('create_user', $data);
     }
@@ -72,11 +68,13 @@ class UserController extends BaseController
         }
         // var_dump($this->request->getVar());
         $userModel = new UserModel();
-        $userModel->saveUser([
+        $this->userModel->saveUser([
             'nama' => $this->request->getVar('nama'),
             'id_kelas' => $this->request->getVar('kelas'),
             'npm' => $this->request->getVar('npm'),
         ]);
+
+        return redirect()->to('/user');
         $data = [
             'nama' => $this ->request->getVar('nama'),
             'npm' => $this ->request->getVar('npm'),
