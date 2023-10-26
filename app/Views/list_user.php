@@ -32,9 +32,9 @@
                         <td><?= $u['npm']; ?></td>
                         <td><?= $u['nama_kelas']; ?></td>
                         <td>
-                            <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal<?= $u['npm']; ?>">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
+                            <a class="btn btn-primary" href="<?= base_url('user/' . $u['id']) ?>">Detail</a>
+                            <a class="btn btn-warning" href="">Edit</a>
+                            <a class="btn btn-danger"   href="">Hapus</a>
                         </td>
                     </tr>
                     <!-- Modal for Delete Confirmation -->

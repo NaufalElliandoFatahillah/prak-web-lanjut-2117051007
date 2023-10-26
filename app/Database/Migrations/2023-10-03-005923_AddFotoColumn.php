@@ -10,9 +10,9 @@ class AddFotoColumn extends Migration
     {
         $this->forge->addColumn('user',[
             'foto'=> [
-                'type'=> 'VARRCHAR',
-                'constraint'=> 255,
-                'null'=> true,
+                'type'          => 'VARCHAR',
+                'constraint'    => 255,
+                'null'          => true,
             ],
         ]);
     }

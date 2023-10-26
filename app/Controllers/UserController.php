@@ -24,6 +24,18 @@ class UserController extends BaseController
         ];
         return view ('list_user', $data);
     }
+
+    public function show($id)   
+    {
+        $user = $this->userModel->getUser($id);
+        $data = [
+            'title' => 'profile user',
+            'user' => $user,
+        ];
+
+        return view('profile',$data);
+    }
+
     public function profile($nama = "",$kelas = "",$npm ="")
     {
         $data = [
@@ -42,7 +54,6 @@ class UserController extends BaseController
             'title'=> "Tambah User",
             'kelas' => $kelas,
         ];
-
         return view('create_user', $data);
     }
     
@@ -61,26 +72,47 @@ class UserController extends BaseController
                     'required' => '{field} mahasiswa harus di isi.',
                     'is_unique' => '{field} mahasiswa sudah terdaftar.'
                 ]
+            ],
+            'foto' => [
+                'rules'         => 'uploaded[foto]|is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png]',
+
+                'errors'        => [
+                    'uploaded'  => '{field} Foto harus dipilih.',
+                    'is_image'  => '{field} Yang anda pilih bukan gambar.',
+                    'mime_in'   => '{field} Foto harus berekstensi png,jpg,jpeg,gif.'
+                ]
             ]
         ])) {
-            $validation = \Config\Services::validation();
-            return redirect()->to(base_url('/user/create'))->withInput()->with('validation', $validation);
+        $validationErrors = $this->validator->getErrors();
+            foreach ($validationErrors as $field => $error) {
+                session()->setFlashdata('error_' . $field, $error);
+            }
+            return redirect()->to('/user/create')->withInput();
         }
+        $path = 'assets/uplouds/img/';
+            $foto = $this->request->getFile('foto');
+            $name = $foto->getRandomName();
+
+            if ($foto->move($path, $name)) {
+                $foto = base_url($path . $name);
+            }
+
         // var_dump($this->request->getVar());
         $userModel = new UserModel();
         $this->userModel->saveUser([
             'nama' => $this->request->getVar('nama'),
             'id_kelas' => $this->request->getVar('kelas'),
             'npm' => $this->request->getVar('npm'),
+            'foto'=> $foto
         ]);
 
         return redirect()->to('/user');
-        $data = [
-            'nama' => $this ->request->getVar('nama'),
-            'npm' => $this ->request->getVar('npm'),
-            'kelas' => $this ->request->getVar('kelas'),
-           
-        ];
-        return view('profile',$data);
+        // $data = [
+        //     'nama' => $this ->request->getVar('nama'),
+        //     'npm' => $this ->request->getVar('npm'),
+        //     'kelas' =>$this ->request->getVar('kelas'),
+            
+        // ];
+        // return view('profile',$data);
     }
 }
