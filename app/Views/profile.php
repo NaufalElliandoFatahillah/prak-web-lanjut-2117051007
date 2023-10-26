@@ -1,21 +1,3 @@
-<?php
-// Definisikan array kelas dengan nama kelas sesuai nomor kelas
-$kelasArray = [
-    1 => 'AB',
-    2 => 'BC',
-    3 => 'CD',
-    4 => 'DA'
-    // Tambahkan kelas lainnya sesuai kebutuhan
-];
-$kelas_id =$kelas;
-// Periksa apakah nomor kelas ada dalam array
-if (isset($kelasArray[$kelas_id])) {
-    $namaKelas = $kelasArray[$kelas_id];
-} else {
-    $namaKelas = 'Kelas tidak diketahui';
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,13 +60,13 @@ if (isset($kelasArray[$kelas_id])) {
 <body>
     <div class="container">
         <div class="profile-card">
-            <img src="<?=base_url();?>image/ppcisco.jpeg" class="rounded-circle profile-image" alt="Profile Image">
-            <h1 class="profile-name"><?=$nama?></h1>
+            <img src="<?=$user['foto']?>" class="rounded-circle profile-image" alt="Profile Image">
+            <h1 class="profile-name"><?=$user['nama']?></h1>
             <div class="profile-info">
                 <p class="profile-label">NPM:</p>
-                <p><?=$npm?></p>
+                <p><?=$user['npm']?></p>
                 <p class="profile-label">Kelas:</p>
-                <p><?=$kelas?></p>
+                <p><?=$user['nama_kelas']?></p>
             </div>
         </div>
     </div>

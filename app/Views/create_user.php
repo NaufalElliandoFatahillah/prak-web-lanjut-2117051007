@@ -79,7 +79,7 @@
     </style>
     <div class="container">
       <h1>Form Absen</h1>
-      <form action="<?=base_url('/user/store')?>" method="POST">
+      <form action="<?=base_url('/user/store')?>" method="POST" enctype="multipart/form-data">
         <div class="form-group">
           <label for="nama">Nama :</label>
           <input type="text" class="form-control mt-2 <?= session('validation') && session('validation')->hasError('nama') ? 'is-invalid' : '' ?>" id="floatingName" placeholder="Nama" name="nama" value="<?= old('nama') ?>">
@@ -111,6 +111,18 @@
             }
             ?>
           </select>
+        </div>
+        <div class="form-group">
+          <label for="foto">Foto :</label>
+          <input type="file" class="form-control <?php if (session()->getFlashdata('error_foto')) echo 'is-invalid'; ?>"  name="foto" aria-label="Default select example">
+          <?php 
+          if (session()->getFlashdata('error_foto')) : 
+            ?>
+              <div class="invalid-feedback">
+              <?= session()->getFlashdata('error_foto') ?>
+              </div>
+            <?php endif; ?>
+          </input>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
