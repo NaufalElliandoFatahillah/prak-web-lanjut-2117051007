@@ -31,10 +31,14 @@
                         <td><?= $u['nama']; ?></td>
                         <td><?= $u['npm']; ?></td>
                         <td><?= $u['nama_kelas']; ?></td>
-                        <td>
-                            <a class="btn btn-primary" href="<?= base_url('user/' . $u['id']) ?>">Detail</a>
-                            <a class="btn btn-warning" href="">Edit</a>
-                            <a class="btn btn-danger"   href="">Hapus</a>
+                        <td class="d-flex">
+                            <a class="btn btn-primary mx-1" href="<?= base_url('user/' . $u['id']) ?>">Detail</a>
+                            <a class="btn btn-warning mx-1" href="<?= base_url('user/' . $u['id'].'/edit') ?>">Edit</a>
+                            <form action="<?= base_url('user/delete/' . $u['id']) ?>" method="POST">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <?= csrf_field() ?>
+                            <button class="btn btn-danger mx-1" type="submit">Delete</button>
+                        </form>
                         </td>
                     </tr>
                     <!-- Modal for Delete Confirmation -->

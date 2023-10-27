@@ -115,4 +115,76 @@ class UserController extends BaseController
         // ];
         // return view('profile',$data);
     }
+    public function edit($id)
+    {
+        $user = $this->userModel->getUser($id);
+        $kelas = $this->kelasModel->getKelas();
+        $data = [
+            'title' => 'Edit User',
+            'user' => $user,
+            'kelas' => $kelas,
+            'validation' => \Config\Services::validation()
+
+        ];
+        return view('edit_user', $data);
+    }
+    public function update($id)
+    {
+    $path = 'assets/uploads/img/';
+    $foto = $this->request->getFile('foto');
+    $data = [
+        'nama' => $this->request->getVar('nama'),
+        'id_kelas' => $this->request->getVar('kelas'),
+        'npm' => $this->request->getVar('npm'),
+    ];
+    if ($foto->isValid()) {
+        $name = $foto->getRandomName();
+        if ($foto->move($path, $name)) {
+            $foto_path = base_url($path . $name);
+            $data['foto'] = $foto_path;
+        }
+        }
+        $result = $this->userModel->updateUser($data, $id);
+
+        if (!$result) {
+            return redirect()->back()->withInput()
+                ->with('error', 'Gagal mengubah data');
+        }
+
+        return redirect()->to(base_url('/user'));
+    }
+    public function delete($id)
+    {
+        $user = $this->userModel->getUser($id); // Retrieve the user data
+        if (empty($user)) {
+            return redirect()->to(base_url('/user'))->with('error', 'User not found.');
+        }
+    
+        $result = $this->userModel->deleteUser($id);
+    
+        if ($result) {
+            return redirect()->to(base_url('/user'))->with('success', 'User data deleted successfully.');
+        } else {
+            return redirect()->to(base_url('/user'))->with('error', 'Failed to delete user.');
+        }
+    }
+    
+    public function delKelas($id)
+    {
+        return $this->delete($id); // Redirect the delete request to the deleteUser method
+    }
+    
+    public function deleteUser($id)
+    {
+        return $this->delete($id); // Redirect the delete request to the deleteUser method
+    }
+    
+    public function getKelas($id_kelas){
+        $user = $this->userModel->getUserKelas($id_kelas);
+        $data = [
+            'title' => 'Profile',
+            'user'  => $user,
+        ];
+        return view('list_kelas', $data);
+    }
 }

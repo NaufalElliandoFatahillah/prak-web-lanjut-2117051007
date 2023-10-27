@@ -64,6 +64,17 @@ class KelasController extends BaseController
         ]);
         return redirect()->to(base_url('/kelas'));
     }
+    public function delete($id)
+{
+    // Logic to delete the "Kelas" with the given $id
+    $result = $this->kelasModel->deleteKelas($id);
+
+    if ($result) {
+        return redirect()->to(base_url('/kelas'))->with('success', 'Kelas data deleted successfully.');
+    } else {
+        return redirect()->to(base_url('/kelas'))->with('error', 'Failed to delete Kelas.');
+    }
+}
 
     public function edit($id)
     {
