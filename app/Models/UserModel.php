@@ -16,7 +16,7 @@ class UserModel extends Model
     protected $allowedFields    = ['nama', 'npm', 'id_kelas', 'foto'];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
@@ -38,17 +38,27 @@ class UserModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
     public function saveUser($data)
     {
         $this->insert($data);
     }
-
-    public function getUser($id = null){
+    public function getUser($id = null)
+    {
         if ($id != null) {
             return $this->select('user.*, kelas.nama_kelas')
                 ->join('kelas', 'kelas.id = user.id_kelas')->find($id);
         }
         return $this->select('user.*, kelas.nama_kelas')
-        ->join('kelas', 'kelas.id=user.id_kelas')->findAll();
+            ->join('kelas', 'kelas.id=user.id_kelas')->findAll();
+    }
+    public function updateUser($data, $id)
+    {
+        return $this->update($id, $data);
+    }
+
+    public function deleteUser($id)
+    {
+        return $this->delete($id);
     }
 }
